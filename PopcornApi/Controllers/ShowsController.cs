@@ -10,12 +10,12 @@ using PopcornApi.Models.Rating;
 using PopcornApi.Models.Show;
 using PopcornApi.Models.Torrent.Show;
 using PopcornApi.Services.Caching;
-using PopcornApi.Services.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
 using System.Threading;
+using Microsoft.ApplicationInsights;
 using PopcornApi.Extensions;
 using PopcornApi.Helpers;
 using Utf8Json.Resolvers;
@@ -29,7 +29,7 @@ namespace PopcornApi.Controllers
         /// <summary>
         /// The logging service
         /// </summary>
-        private readonly ILoggingService _loggingService;
+        private readonly TelemetryClient _telemetryClient;
 
         /// <summary>
         /// The caching service
@@ -39,11 +39,11 @@ namespace PopcornApi.Controllers
         /// <summary>
         /// Movies
         /// </summary>
-        /// <param name="loggingService">The logging service</param>
+        /// <param name="telemetryClient">The logging service</param>
         /// <param name="cachingService">The caching service</param>
-        public ShowsController(ILoggingService loggingService, ICachingService cachingService)
+        public ShowsController(TelemetryClient telemetryClient, ICachingService cachingService)
         {
-            _loggingService = loggingService;
+            _telemetryClient = telemetryClient;
             _cachingService = cachingService;
         }
 
@@ -91,13 +91,13 @@ namespace PopcornApi.Controllers
                     }
                     catch (Exception ex)
                     {
-                        _loggingService.Telemetry.TrackException(ex);
+                        _telemetryClient.TrackException(ex);
                     }
                 }
             }
             catch (Exception ex)
             {
-                _loggingService.Telemetry.TrackException(ex);
+                _telemetryClient.TrackException(ex);
             }
 
             using (var context = new PopcornContextFactory().CreateDbContext(new string[0]))
@@ -242,13 +242,13 @@ namespace PopcornApi.Controllers
                     }
                     catch (Exception ex)
                     {
-                        _loggingService.Telemetry.TrackException(ex);
+                        _telemetryClient.TrackException(ex);
                     }
                 }
             }
             catch (Exception ex)
             {
-                _loggingService.Telemetry.TrackException(ex);
+                _telemetryClient.TrackException(ex);
             }
 
             using (var context = new PopcornContextFactory().CreateDbContext(new string[0]))
@@ -332,13 +332,13 @@ namespace PopcornApi.Controllers
                     }
                     catch (Exception ex)
                     {
-                        _loggingService.Telemetry.TrackException(ex);
+                        _telemetryClient.TrackException(ex);
                     }
                 }
             }
             catch (Exception ex)
             {
-                _loggingService.Telemetry.TrackException(ex);
+                _telemetryClient.TrackException(ex);
             }
 
             using (var context = new PopcornContextFactory().CreateDbContext(new string[0]))
@@ -425,13 +425,13 @@ namespace PopcornApi.Controllers
                     }
                     catch (Exception ex)
                     {
-                        _loggingService.Telemetry.TrackException(ex);
+                        _telemetryClient.TrackException(ex);
                     }
                 }
             }
             catch (Exception ex)
             {
-                _loggingService.Telemetry.TrackException(ex);
+                _telemetryClient.TrackException(ex);
             }
             using (var context = new PopcornContextFactory().CreateDbContext(new string[0]))
             {

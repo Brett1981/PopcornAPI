@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PopcornApi.Extensions;
 using PopcornApi.Services.Caching;
-using PopcornApi.Services.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace PopcornApi
@@ -51,8 +49,6 @@ namespace PopcornApi
             });
 
             services.AddSingleton<ICachingService>(e => new CachingService(Configuration["Redis:ConnectionString"]));
-            var loggingService = new LoggingService(Configuration["ApplicationInsights:InstrumentationKey"]);
-            services.AddSingleton(typeof(ILoggingService), loggingService);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
